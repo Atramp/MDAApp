@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.teradata.mda.dao.JobOperator">
+
+
+
+    <select id="getAllJobs" resultType="MdaJob">
+        select * from mdajob
+    </select>
+
+    <select id="getJobByID" parameterType="int" resultType="MdaJob">
+        select * from mdajob where jobid = #{id}
+    </select>
+
+    <select id="getJobByName"  parameterType="string" resultType="MdaJob">
+        select * from mdajob where jobname like ('%' || #{name} || '%')
+    </select>
+
+    <select id="getMaxJobId"  resultType="int">
+        select coalesce(max(jobid),0) from mdajob
+    </select>
+
+    <update id="updateJob" parameterType="MdaJob">
+        update mdajob set
+        jobname=#{jobInfo.jobname},
+        creatorname=#{jobInfo.creatorname},
+        createtime=#{jobInfo.createtime},
+        currentstatus=#{jobInfo.currentstatus},
+        previousfinished=#{jobInfo.previousfinished},
+        sqlstatement=#{jobInfo.sqlstatement},
+        resultlink=#{jobInfo.resultlink},
+        usersql=#{jobInfo.usersql},
+        statusdescription=#{jobInfo.statusdescription},
+        outputfilename=#{jobInfo.outputfilename}
+        where jobid=#{jobInfo.jobid};
+    </update>
+
+
+    <insert id="insertJob" parameterType="MdaJob">
+        insert into mdajob (
+        jobid
+        ,jobname
+        ,description
+        ,creatorname
+        ,createtime
+        ,currentstatus
+        ,previousfinished
+        ,resultlink
+        ,sqlstatement
+        ,usersql)
+        values
+        (
+        #{jobInfo.jobid}
+        ,#{jobInfo.jobname}
+        ,#{jobInfo.description}
+        ,#{jobInfo.creatorname}
+        ,#{jobInfo.createtime,javaType=string,jdbcType=TIMESTAMP}
+        ,#{jobInfo.currentstatus}
+        ,#{jobInfo.previousfinished}
+        ,#{jobInfo.resultlink}
+        ,#{jobInfo.sqlstatement}
+        ,#{jobInfo.usersql}
+        )
+    </insert>
+
+    <delete id="deleteJob" parameterType="int">
+        delete from mdajob where jobid=#{jobId}
+    </delete>
+
+    <update id="updateSqlStatement">
+        update mdajob set sqlstatement=#{sql} where jobid=#{jobId};
+    </update>
+
+    <update id="updateUserSql">
+        update mdajob set usersql=#{sql} where jobid=#{jobId};
+    </update>
+
+    <update id="updateStatusDescription">
+        update mdajob set statusdescription=#{description} where jobid=#{jobId}
+    </update>
+</mapper>

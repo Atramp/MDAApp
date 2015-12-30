@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- this file contains the SQL definination whe user need to show the
+      the table and column tree, used by the NavigateField Servlet-->
+<mapper namespace="com.teradata.mda.dao.FieldFilterOperator">
+    <select id="getPredefinedFilter" resultType="FieldFilter">
+        select * from fieldfilter t1 inner join columns t2 on t1.colId=t2.colId  where t2.tableid in
+        <foreach collection="tableIdList" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+          and t1.place=#{place} order by filterId desc
+<!--        select * from fieldfilter t1 inner join columns t2 on t1.colId=t2.colId  where t2.tableid in ( #{tableIdList})
+        and t1.place=#{place} order by filterId desc-->
+    </select>
+
+
+    <select id="getFilterById" resultType="FieldFilter">
+        select * from fieldfilter where filterId=#{filterId}
+    </select>
+
+    <select id="getFieldFilter" resultType="FieldFilter">
+        select t1.*,(select operationtitle from commonoperation t2 where t2.operationplace='connector' and t2.operationid=t1.opconnectorid)  as opconnectiontitle
+        From fieldfilter t1 where (colId= #{colId} or filterId &lt; 100) and place= #{place} or filterId=0 order by filterId desc
+    </select>
+
+    <update id="updateFilter">
+        update fieldfilter set
+          optitle=#{opTitle},
+          description=#{description},
+          outputtitle=#{outputTitle},
+          resultoperatorid=#{resultOperatorId},
+          op1Id=#{op1Id},
+          op2Id=#{op2Id},
+          opconnectorid=#{opConnectorId},
+          param1value=#{param1value},
+          param2value=#{param2value}
+          where filterId=#{filterId};
+    </update>
+
+    <select id="getMaxId" resultType="int">
+        select case when (max(filterId)&lt;100)  then 100 else max(filterID) end from fieldfilter
+    </select>
+
+    <insert id="insertFilter" parameterType="FieldFilter">
+        insert into fieldfilter (
+        filterId,colId,opsql,extrasql,place,optitle,description,showdescription,creator,createtime
+        ,op1label,op1candidate,showoperator1,param1leftlabel,param1style,param1rightlabel
+        ,showconnector,connectorcandidate,opconnectorid
+        ,op2label,param2leftlabel,op2candidate,showoperator2,param2rightlabel,param2style
+        ,paramcount,param1checkrule,param2checkrule,paramscheckrule
+        ,op1Id,op2Id,param1value,param2value,outputtitle,resultoperatorid
+        ) values (
+         #{filter.filterId},#{filter.colId},#{filter.opsql},#{filter.extraSql},#{filter.place},#{filter.optitle},#{filter.description},#{filter.showdescription},#{filter.creator},#{filter.createtime}
+        ,#{filter.op1label},#{filter.op1candidate},#{filter.showoperator1},#{filter.param1leftlabel},#{filter.param1style},#{filter.param1rightlabel}
+        ,#{filter.showConnector},#{filter.connectorcandidate},#{filter.opconnectorid}
+        ,#{filter.op2label},#{filter.param2leftlabel},#{filter.op2candidate},#{filter.showoperator2},#{filter.param2rightlabel},#{filter.param2style}
+        ,#{filter.paramcount},#{filter.param1checkrule},#{filter.param2checkrule},#{filter.paramscheckrule}
+        ,#{filter.op1Id},#{filter.op2Id},#{filter.param1value},#{filter.param2value},#{filter.outputtitle},#{filter.resultoperatorid}
+        )
+    </insert>
+
+    <select id="getAllFilters" resultType="FieldFilter">
+        select * from fieldfilter
+    </select>
+
+    <select id="queryFilters" resultType="FieldFilter" parameterType="string">
+        select t2.tablename,t2.colname,t2.coltitle, t1.* from fieldfilter t1 inner join columnview t2 on t1.colId=t2.colId
+         where optitle like ('%' || #{templateName} || '%') or description like ('%' || #{templateName} || '%')
+    </select>
+
+    <select id="getFilterTemplate" resultType="FieldFilterTemplate" parameterType="int">
+        <!--select t2.tablename,t2.colname,t2.coltitle, t1.* from fieldfilter t1 inner join columnview t2 on t1.colId=t2.colId where t2.filterid=#{filterId};-->
+        select * from fieldfilter t1 inner join columnview t2 on t1.colId=t2.colId inner join filterreference t3 on t1.filterid=t3.filterid where t1.filterid=#{filterId};
+    </select>
+
+    <select id="getAllFilterTemplate" resultType="FieldFilterTemplate" parameterType="int">
+        <!--select t2.tablename,t2.colname,t2.coltitle, t1.* from fieldfilter t1 inner join columnview t2 on t1.colId=t2.colId;-->
+         select * from fieldfilter t1 inner join columnview t2 on t1.colId=t2.colId inner join filterreference t3 on t1.filterid=t3.filterid
+    </select>
+
+    <select id="getWhereTemplate" resultType="FieldFilter">
+        select * from fieldfilter where filterId=0 or filterid=1  order by filterId
+    </select>
+
+    <select id="getResultTemplate" resultType="FieldFilter">
+        select * from fieldfilter where filterId=0 or filterid=2 order by filterId
+    </select>
+
+    <select id="getGroupByTemplate" resultType="FieldFilter">
+        select * from fieldfilter where filterId=0 or filterid=3 or filterId=4 order by filterId
+    </select>
+
+    <select id="getOrderByTemplate" resultType="FieldFilter">
+        select * from fieldfilter where filterId=0 or filterid=5  order by filterId
+    </select>
+
+
+    <update id="updateFilterTemplate">
+        update fieldfilter set
+        opsql=#{filter.opsql},
+        extrasql=#{filter.extraSql},
+        optitle=#{filter.optitle},
+        description=#{filter.description},
+        showdescription=#{filter.showdescription},
+        creator=#{filter.creator},
+        createtime=cast(#{filter.createtime} as TIMESTAMP ),
+        op1label=#{filter.op1label},
+        op1candidate=#{filter.op1candidate},
+        showoperator1=#{filter.showoperator1},
+        param1leftlabel=#{filter.param1leftlabel},
+        param1style=#{filter.param1style},
+        param1rightlabel=#{filter.param1rightlabel},
+        showconnector=#{filter.showConnector},
+        connectorcandidate=#{filter.connectorcandidate},
+        opconnectorid=#{filter.opconnectorid},
+        op2label=#{filter.op2label},
+        param2leftlabel=#{filter.param2leftlabel},
+        op2candidate=#{filter.op2candidate},
+        showoperator2=#{filter.showoperator2},
+        param2rightlabel=#{filter.param2rightlabel},
+        param2style=#{filter.param2style},
+        paramcount=#{filter.paramcount},
+        param1checkrule=#{filter.param1checkrule},
+        param2checkrule=#{filter.param2checkrule},
+        paramscheckrule=#{filter.paramscheckrule},
+        op1Id=#{filter.op1Id},
+        op2Id=#{filter.op2Id},
+        param1value=#{filter.param1value},
+        param2value=#{filter.param2value},
+        outputtitle=#{filter.outputtitle},
+        resultoperatorid=#{filter.resultoperatorid}
+        where filterId=#{filter.filterId};
+    </update>
+
+
+    <delete id="deleteFilter">
+        delete from fieldfilter where filterid=#{filterId}
+    </delete>
+
+
+    <select id="getColumnReferenceCount" parameterType="int" resultType="int">
+        select count(filterId) from fieldfilter where colid=#{colId} and filterId &gt;100
+    </select>
+
+    <select id="getTableReferenceCount" parameterType="int" resultType="int">
+        select count(t1.filterId) from fieldfilter t1 inner join columns t2 on t1.colId=t2.colId where t2.tableId=#{tableId} and t1.filterId &gt; 100;
+    </select>
+
+
+</mapper>

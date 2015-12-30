@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/SQL/testdata.sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/teradata/mda/servlet/HelpTable.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/teradata/mda/servlet/SQLOperator.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/test/com/teradata/mda/test/poi/GenerateExcel.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/Application.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/util/PromptWindow.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/Main.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/MainController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/MainModel.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/TitleWindow.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/TitleWindowController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/TitleWindowModel.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/Container.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/ContainerController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/ContainerModel.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/Field.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/FieldController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/FieldModel.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/groupby/GroupByContainer.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/groupby/GroupByContainerController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/groupby/GroupByContainerModel.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/groupby/GroupByField.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/groupby/GroupByFieldController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/groupby/GroupByFieldModel.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/orderby/OrderByContainer.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/orderby/OrderByContainerController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/orderby/OrderByContainerModel.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/orderby/OrderByField.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/orderby/OrderByFieldController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/orderby/OrderByFieldModel.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/result/ResultContainer.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/result/ResultContainerController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/result/ResultContainerModel.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/result/ResultField.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/result/ResultFieldModel.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/where/WhereContainer.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/where/WhereContainerController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/field/where/WhereField.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/login/Login.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/login/LoginController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/login/LoginModel.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/overview/OverView.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/overview/OverViewController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/overview/OverViewModel.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/task/ResultPreviewer.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/task/ResultPreviewerController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/task/ResultPreviewerModel.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/task/SQLPreviewer.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/task/SQLPreviewerController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/task/SQLPreviewerModel.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/task/TaskView.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/task/TaskViewController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/task/TaskViewModel.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/task/tabletree/TableTree.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/task/tabletree/TableTreeController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/web/app/view/task/tabletree/TableTreeModel.js" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>

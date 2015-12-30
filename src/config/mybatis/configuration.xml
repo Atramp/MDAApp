@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+
+    <settings>
+<!--        <setting name="cacheEnabled" value="true"/>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="multipleResultSetsEnabled" value="true"/>
+        <setting name="useColumnLabel" value="true"/>
+        <setting name="useGeneratedKeys" value="false"/>
+        <setting name="autoMappingBehavior" value="PARTIAL"/>
+        <setting name="defaultExecutorType" value="SIMPLE"/> -->
+        <setting name="defaultStatementTimeout" value="2000"/>
+<!--        <setting name="defaultFetchSize" value="100"/>
+        <setting name="safeRowBoundsEnabled" value="false"/>
+        <setting name="mapUnderscoreToCamelCase" value="false"/>
+        <setting name="localCacheScope" value="SESSION"/>
+        <setting name="jdbcTypeForNull" value="OTHER"/>
+        <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>-->
+    </settings>
+
+
+
+    <typeAliases>
+        <typeAlias alias="MdaJob" type="com.teradata.mda.model.MdaJob"/>
+        <typeAlias alias="ColumnInfo" type="com.teradata.mda.model.ColumnInfo"/>
+        <typeAlias alias="Tables" type="com.teradata.mda.model.Tables"/>
+        <typeAlias alias="FieldFilter" type="com.teradata.mda.model.FieldFilter"/>
+        <typeAlias alias="CommonOperation" type="com.teradata.mda.model.CommonOperation"/>
+        <typeAlias alias="FilterCandidate" type="com.teradata.mda.model.FilterCandidate"/>
+        <typeAlias alias="TreeGridModel" type="com.teradata.mda.guimodel.TreeGridModel"/>
+        <typeAlias alias="HelpDatabase" type="com.teradata.mda.model.HelpDatabase"/>
+        <typeAlias alias="JobRule" type="com.teradata.mda.model.JobRule"/>
+        <typeAlias alias="RuleFilter" type="com.teradata.mda.model.RuleFilter"/>
+        <typeAlias alias="FieldFilterTemplate" type="com.teradata.mda.model.FieldFilterTemplate"/>
+        <typeAlias alias="GroupLayer" type="com.teradata.mda.model.GroupLayer"/>
+        <typeAlias alias="HelpTableColumn" type="com.teradata.mda.model.HelpTableColumn"/>
+    </typeAliases>
+
+    <environments default="mdaapp">
+        <environment id="mdaapp">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.teradata.jdbc.TeraDriver"/>
+                <property name="url" value="jdbc:teradata://192.168.100.200/DATABASE=MDAAPP,TMODE=TERA,CHARSET=ASCII,CLIENT_CHARSET=cp936"/>
+                <property name="username" value="dbc"/>
+                <property name="password" value="dbc"/>
+                <property name="poolMaximumActiveConnections" value="20"/>
+                <property name="poolMaximumIdleConnections" value="0"/>
+            </dataSource>
+        </environment>
+        <environment id="maindw">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.teradata.jdbc.TeraDriver"/>
+                <property name="url" value="jdbc:teradata://192.168.100.200/CLIENT_CHARSET=cp936,TMODE=TERA,CHARSET=ASCII,DATABASE=DWPMART"/>
+                <property name="username" value="dbc"/>
+                <property name="password" value="dbc"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="config/mybatis/mdaappsql/mdajobs.xml"/>
+        <mapper resource="config/mybatis/mdaappsql/treegrid.xml" />
+        <mapper resource="config/mybatis/mdaappsql/columninfo.xml" />
+        <mapper resource="config/mybatis/mdaappsql/fieldfilter.xml" />
+        <mapper resource="config/mybatis/mdaappsql/operations.xml"/>
+        <mapper resource="config/mybatis/mdaappsql/selectorcandidate.xml"/>
+        <mapper resource="config/mybatis/mdaappsql/databasehelper.xml"/>
+        <mapper resource="config/mybatis/mdaappsql/jobrules.xml"/>
+        <mapper resource="config/mybatis/mdaappsql/grouplayer.xml"/>
+        <mapper resource="config/mybatis/mdaappsql/TableHelper.xml"/>
+    </mappers>
+
+
+</configuration>

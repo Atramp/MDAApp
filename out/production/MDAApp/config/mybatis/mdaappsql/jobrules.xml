@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.teradata.mda.dao.RuleOperator">
+
+
+    <select id="getRuleByID" parameterType="int" resultType="JobRule">
+        select * from jobrules where ruleId = #{id}
+    </select>
+
+
+    <select id="getRulesByJobId" parameterType="int" resultType="JobRule">
+        select * from jobrules where jobid = #{id} order by place,ruleId
+    </select>
+
+    <select id="getRulesByJobIdPlace"  resultType="JobRule">
+        select * from jobrules where jobid = #{id} and place=#{place}
+    </select>
+
+    <delete id="deleteByJobId">
+        delete from jobrules where jobid=#{jobId};
+    </delete>
+
+    <select id="getMaxRuleId"  resultType="int">
+        select coalesce(max(ruleId),0) from jobrules
+    </select>
+
+    <update id="updateRule" parameterType="JobRule">
+        update jobrules SET
+            filterId=#{ruleInfo.filterId},
+            resultoperatorid=#{ruleInfo.resultoperatorid},
+            ordernum=#{ruleInfo.ordernum},
+            isdistinct=#{ruleInfo.isdistinct},
+            op1Id=#{ruleInfo.op1Id},
+            op2Id=#{ruleInfo.op2Id},
+            place=#{ruleInfo.place},
+            opconnectorid=#{ruleInfo.opconnectorid},
+            param1value=#{ruleInfo.param1value},
+            param1type=#{ruleInfo.param1type},
+            param2value=#{ruleInfo.param2value},
+            param2type=#{ruleInfo.param2type},
+            outputtitle=#{ruleInfo.outputtitle},
+            windowx=#{ruleInfo.windowx},
+            windowy=#{ruleInfo.windowy}
+            where ruleId=#{ruleInfo.ruleId}
+    </update>
+
+
+    <insert id="insertRule" parameterType="JobRule">
+        insert into jobrules(
+            ruleId,
+            jobid,
+            filterId,
+            colId,
+            resultoperatorid,
+            isdistinct,
+            ordernum,
+            op1Id,
+            op2Id,
+            place,
+            opconnectorid,
+            param1value,
+            param1type,
+            param2value,
+            param2type,
+            outputtitle,
+            windowx,
+            windowy
+          )
+        values(
+        #{ruleInfo.ruleId},
+        #{ruleInfo.jobid},
+        #{ruleInfo.filterId},
+        #{ruleInfo.colId},
+        #{ruleInfo.resultoperatorid},
+        #{ruleInfo.isdistinct},
+        #{ruleInfo.ordernum},
+        #{ruleInfo.op1Id},
+        #{ruleInfo.op2Id},
+        #{ruleInfo.place},
+        #{ruleInfo.opconnectorid},
+        #{ruleInfo.param1value},
+        #{ruleInfo.param1type},
+        #{ruleInfo.param2value},
+        #{ruleInfo.param2type},
+        #{ruleInfo.outputtitle},
+        #{ruleInfo.windowx},
+        #{ruleInfo.windowy}
+        )
+    </insert>
+
+
+    <delete id="deleteUnusedRule" >
+        delete from jobrules where jobid=#{jobId} and ruleId not in
+        <foreach collection="keyMap.entrySet()" item="item" index="index" open="(" separator="," close=")">
+            #{item.value}
+        </foreach>
+    </delete>
+
+
+    <select id="getOrphanRule" resultType="JobRule">
+        select * from jobrules where jobid=#{jobId} and ruleId not in
+        <foreach collection="keyMap.entrySet()" item="item" index="index" open="(" separator="," close=")">
+            #{item.value}
+        </foreach>
+    </select>
+
+
+    <select id="getRuleFilterByRuleId" parameterType="int" resultType="RuleFilter">
+            select t1.ruleId
+            ,t1.jobid
+            ,t2.filterid
+            ,t2.colId
+            ,t1.resultoperatorid
+            ,t1.isdistinct
+            ,t1.ordernum
+            ,t1.op1Id
+            ,t1.op2Id
+            ,t1.place
+            ,t1.opconnectorid
+            ,t1.param1value
+            ,t1.param1type
+            ,t1.param2value
+            ,t1.param2type
+            ,t1.outputtitle
+            ,t1.windowx
+            ,t1.windowy
+            ,t2.opsql
+            ,t2.optitle
+            ,t2.description
+            ,t2.showdescription
+            ,t2.creator
+            ,t2.createtime
+            ,t2.op1label
+            ,t2.op1candidate
+            ,t2.showoperator1
+            ,t2.param1leftlabel
+            ,t2.param1style
+            ,t2.param1rightlabel
+            ,t2.op2label
+            ,t2.param2leftlabel
+            ,t2.op2candidate
+            ,t2.showoperator2
+            ,t2.param2rightlabel
+            ,t2.param2style
+            ,t2.paramcount
+            ,t2.param1checkrule
+            ,t2.param2checkrule
+            ,t2.paramscheckrule
+            ,t2.outputtitle
+            ,t2.connectorcandidate
+            ,t2.showConnector
+            from jobrules t1 left join fieldfilter t2
+            on t1.filterid=t2.filterid
+            where t1.ruleId=#{ruleId}
+    </select>
+
+    <select id="getRuleFilterByJobId" parameterType="int" resultType="RuleFilter">
+        select t1.ruleId
+        ,t1.jobid
+        ,t1.filterid
+        ,t1.colId
+        ,t1.resultoperatorid
+        ,t1.isdistinct
+        ,t1.ordernum
+        ,t1.op1Id
+        ,t1.op2Id
+        ,t1.place
+        ,t1.opconnectorid
+        ,t1.param1value
+        ,t1.param1type
+        ,t1.param2value
+        ,t1.param2type
+        ,t1.outputtitle
+        ,t1.windowx
+        ,t1.windowy
+        ,t2.opsql
+        ,t2.optitle
+        ,t2.description
+        ,t2.showdescription
+        ,t2.creator
+        ,t2.createtime
+        ,t2.op1label
+        ,t2.op1candidate
+        ,t2.showoperator1
+        ,t2.param1leftlabel
+        ,t2.param1style
+        ,t2.param1rightlabel
+        ,t2.op2label
+        ,t2.param2leftlabel
+        ,t2.op2candidate
+        ,t2.showoperator2
+        ,t2.param2rightlabel
+        ,t2.param2style
+        ,t2.paramcount
+        ,t2.param1checkrule
+        ,t2.param2checkrule
+        ,t2.paramscheckrule
+        ,t2.connectorcandidate
+        ,t2.showConnector
+        from jobrules t1 left join fieldfilter t2
+        on t1.filterid=t2.filterid
+        where t1.jobid=#{jobId}
+        order by t1.place,t1.ordernum,ruleId
+    </select>
+
+    <select id="getColumnReferenceCount" parameterType="int" resultType="int">
+        select count(ruleId) from jobrules where colid=#{colId}
+    </select>
+
+    <select id="getTableReferenceCount" parameterType="int" resultType="int">
+        select count(t1.ruleid) from jobrules t1 inner join columns t2 on t1.colId=t2.colId where t2.tableId=#{tableId};
+    </select>
+
+</mapper>

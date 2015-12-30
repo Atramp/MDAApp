@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- this file contains the SQL definination whe user need to show the
+      the table and column tree, used by the NavigateField Servlet-->
+<mapper namespace="com.teradata.mda.dao.GroupLayerOperator">
+    <!--public List<GroupLayer> getByFilterId(@Param("filterId") int filterId);
+    public List<GroupLayer> getByRuleId(@Param("ruleId") int ruleId);
+    public GroupLayer getByLayerId(@Param("layerId")int layerId);
+    public void deleteByFilterId(@Param("filterId") int filterId);
+    public void deleteByRuleId(@Param("ruleId") int ruleId);
+    public void deleteByLayerId(@Param("layerId")int layerId);
+
+    public void updateLayer(@Param("layer")GroupLayer layer);
+    public void insertLayer(@Param("layer")GroupLayer layer);-->
+    
+    <select id="getByLayerId" resultType="GroupLayer">
+        select * from grouplayer where layerId=#{layerId} order by boundary1
+    </select>
+
+    <select id="getByFilterId" resultType="GroupLayer">
+        select * from grouplayer where ruleId=0 and filterId=#{filterId} order by boundary1
+    </select>
+
+    <select id="getByRuleId" resultType="GroupLayer" parameterType="int">
+        select * from grouplayer where ruleId=#{ruleId} order by boundary1
+    </select>
+
+    <select id="getMaxId" resultType="int">
+        select COALESCE (max(layerId),0) from grouplayer
+    </select>
+
+    <delete id="deleteByRuleId">
+        delete from grouplayer where ruleId=#{ruleId};
+    </delete>
+
+    <delete id="deleteByLayerId">
+        delete from grouplayer where layerId=#{layerId};
+    </delete>
+
+    <delete id="deleteByFilterId">
+        delete from grouplayer where filterid=#{filterId} and ruleId=0;
+    </delete>
+    <insert id="insertLayer" parameterType="GroupLayer">
+        insert into grouplayer (
+            layerId
+            ,filterId
+            ,colId
+            ,ruleId
+            ,layerName
+            ,operator1
+            ,boundary1
+            ,connector
+            ,operator2
+            ,boundary2
+        ) values(
+             #{layer.layerId}
+            ,#{layer.filterId}
+            ,#{layer.colId}
+            ,#{layer.ruleId}
+            ,#{layer.layerName}
+            ,#{layer.operator1}
+            ,#{layer.boundary1}
+            ,#{layer.connector}
+            ,#{layer.operator2}
+            ,#{layer.boundary2}
+        )
+    </insert>
+
+
+    <update id="updateLayer" parameterType="GroupLayer">
+        update grouplayer SET
+         filterId=#{layer.filterId}
+         ,colId=#{layer.colId}
+         ,ruleId=#{layer.ruleId}
+         ,layerName=#{layer.layerName}
+         ,operator1=#{layer.operator1}
+         ,boundary1=#{layer.boundary1}
+         ,connector=#{layer.connector}
+         ,operator2=#{layer.operator2}
+         ,boundary2=#{layer.boundary2}
+         where layerId	=#{layer.layerId}
+    </update>
+
+    <delete id="removeOrphanByFilterId">
+        delete from grouplayer where filterid=#{filterId} and ruleId=0 and layerId not IN
+        <foreach collection="layerId" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+
+    <delete id="removeOrphanByRuleId">
+        delete from grouplayer where ruleId=#{ruleId} and layerId not IN
+        <foreach collection="layerId" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+this configuration is use when application try to get column information through the com.mda.dao.ColInfoOperator-->
+<mapper namespace="com.teradata.mda.dao.TableHelper">
+<!--
+    help table and help database don't work under the mybatis framework ,so we moved it to Java servlet HelpTable
+    please keep the configuration because the app need the connection pool from mybatis -->
+<!--    <select id="helpDatabase" parameterType="string" resultMap="HelpDatabaseMap" statementType="CALLABLE">
+        help database #{dbName}
+    </select>-->
+
+
+
+<!--
+    <resultMap id="HelpDatabaseMap" type="HelpDatabase">
+        <id property="name" column="Table/View/Macro name"/>
+        <result property="kind" column="Kind"/>
+        <result property="comment" column="Comment"/>
+        <result property="protection" column="Protection"/>
+        <result property="creatorName" column="Creator Name"/>
+        <result property="commitOption" column="Commit Option"/>
+        <result property="transactionLog" column="Transaction Log"/>
+    </resultMap>
+-->
+
+    <update id="updateTableComment">
+        update tables set comments=#{comment} where tableid=#{tableId}
+    </update>
+
+    <update id="updateColumnInfo">
+        update columns set
+          coltitle=#{coltitle},
+          defaultInputType=#{defaultInputType}
+        where colId=#{colId}
+    </update>
+<!--    public void updateTableComment(@Param("comment")String comment,@Param("tableId")int tableId);
+    public void updateColumnInfo(@Param("colId")int colId,@Param("coltitle")String colTitle,@Param("defaultInputType")String defaultInputType);-->
+
+
+</mapper>

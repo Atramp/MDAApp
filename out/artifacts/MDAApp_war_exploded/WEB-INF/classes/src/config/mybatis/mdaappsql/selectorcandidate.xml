@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- this file contains the SQL definination whe user need to show the
+      the table and column tree, used by the NavigateField Servlet-->
+<mapper namespace="com.teradata.mda.dao.SelectorCandidate">
+    <select id="getSelectorCandidate" resultType="FilterCandidate">
+        select * from filtercandidate where place=#{place} and filterId=#{filterId} and paramid=#{paramId} and colId=#{colId}
+    </select>
+
+    <select id="getFilterCandidate" resultType="FilterCandidate">
+        select * from filtercandidate where place=#{place} and filterId=#{filterId}
+    </select>
+
+    <select id="getColFilterCandidate" resultType="FilterCandidate">
+        select * from filtercandidate where place=#{place} and filterId=#{filterId} and colId=#{colId}
+    </select>
+
+    <select id="getByFilterId" resultType="FilterCandidate" parameterType="int">
+        select * from filtercandidate where filterId=#{filterId}
+    </select>
+
+    <select id="getMaxId" resultType="int">
+        select COALESCE (max(candidateid),0) from filtercandidate
+    </select>
+
+    <insert id="insertCandidate" parameterType="FilterCandidate">
+        insert into filtercandidate (candidateid,colId,filterId,paramid,place,candidatevalue,candidatetitle)
+         values(
+          #{candidate.candidateid},#{candidate.colId},#{candidate.filterId},#{candidate.paramid},#{candidate.place},#{candidate.candidatevalue},#{candidate.candidatetitle}
+        )
+    </insert>
+
+    <insert id="addCandidate" parameterType="FilterCandidate">
+        insert into filtercandidate (filterId,colId,paramid,place,candidatevalue,candidatetitle)
+        values(
+        #{candidate.filterId},#{candidate.colId},#{candidate.paramid},#{candidate.place},#{candidate.candidatevalue},#{candidate.candidatetitle}
+        )
+    </insert>
+
+    <update id="updateCandidate" parameterType="FilterCandidate">
+        update filtercandidate SET
+        filterId=#{candidate.filterId},
+        colId=#{candidate.colId},
+        paramid=#{candidate.paramid},
+        place=#{candidate.place},
+        candidatevalue=#{candidate.candidatevalue},
+        candidatetitle=#{candidate.candidatetitle}
+        where candidateid= #{candidate.candidateid}
+    </update>
+
+    <delete id="removeUnusedCandidate">
+        delete from filtercandidate where filterid=#{filterId} and candidateid not IN
+        <foreach collection="idList" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+
+    <delete id="deleteByFilterId">
+        delete from filtercandidate where filterid=#{filterId}
+    </delete>
+
+    <delete id="deleteCandidate" parameterType="int">
+        delete from filtercandidate where candidateid=#{candidateId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- this file contains the SQL definination whe user need to show the
+      the table and column tree, used by the NavigateField Servlet-->
+<mapper namespace="com.teradata.mda.dao.AvailableOperation">
+
+    <select id="getOperations" resultType="CommonOperation">
+        select t1.* from commonoperation t1 inner join typemapping t2 on t1.virtualtype=t2.virtualtype
+          where dbtype=#{dbType} and t2.coltype=#{colType} and operationplace=#{place}
+    </select>
+
+    <select id="getCandidate" resultType="CommonOperation">
+        select * from commonoperation where operationid in
+        <foreach collection="candidates" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getOperationById" resultType="CommonOperation">
+        select * from commonoperation where operationid = #{id}
+    </select>
+
+    <select id="getAllOperation" resultType="CommonOperation">
+        select * from commonoperation
+    </select>
+
+</mapper>
