@@ -21,6 +21,10 @@
     <select id="getMaxJobId"  resultType="int">
         select coalesce(max(jobid),0) from mdajob
     </select>
+    
+    <select id="getTaskJobId"  resultType="int">
+        
+    </select>
 
     <update id="updateJob" parameterType="MdaJob">
         update mdajob set

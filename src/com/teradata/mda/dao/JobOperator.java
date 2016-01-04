@@ -17,6 +17,7 @@ public interface JobOperator {
     public List<MdaJob> getJobByName(String name);
     
     public int getMaxJobId();
+    public int getTaskJobId();
     //public int insertJob(MdaJob jobInfo);
     public void insertJob(@Param("jobInfo")MdaJob jobInfo);
     public void updateJob(@Param("jobInfo")MdaJob jobInfo);

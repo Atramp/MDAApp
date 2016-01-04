@@ -4,7 +4,7 @@ drop table commonoperation;
 drop table columns;
 drop table tables;
 drop table codetable;
-drop TABLE  mdajob;
+drop TABLE mdajob;
 drop TABLE fieldfilter;
 
 
