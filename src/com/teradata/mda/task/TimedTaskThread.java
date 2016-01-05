@@ -4,7 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.teradata.mda.model.MdaJob;
-
+/**
+ * Created by HY186013 on 2015/12/31.
+ */
 public class TimedTaskThread extends Thread {
 	private static Logger logger = LoggerFactory.getLogger(TimedTaskThread.class.getName());
 	private int sleepInterval = 5000;
@@ -27,10 +29,14 @@ public class TimedTaskThread extends Thread {
 					daemon.runTask(job);
 					continue;
 				}
-				logger.debug(" no task !");
-				Thread.sleep(this.sleepInterval);
 			} catch (Exception ex) {
-				logger.error("in class TimedTaskThread method run", ex.getMessage());
+				logger.error("TimedTaskThread run ", ex.getMessage());
+			}
+			try {
+				logger.debug(Thread.currentThread().getName() + " no task ! sleep " + this.sleepInterval+ "S");
+				Thread.sleep(this.sleepInterval);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 	}

@@ -42,7 +42,7 @@ public class MdaApp extends HttpServlet {
 
 
         ServletContext context=this.getServletContext();
-        String configPath=context.getRealPath("/")+ "web/WEB-INF/conf/";
+        String configPath=context.getRealPath("/")+ "/WEB-INF/conf/";
         String configFileName=configPath+ "mdaapp.conf";
         MdaConfig mdaConfig=new MdaConfig();
         try {

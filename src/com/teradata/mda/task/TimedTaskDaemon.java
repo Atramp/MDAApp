@@ -18,7 +18,9 @@ import com.teradata.mda.dao.JobOperator;
 import com.teradata.mda.model.MdaJob;
 import com.teradata.mda.sql.SQLTask;
 import com.teradata.mda.util.MdaAppException;
-
+/**
+ * Created by HY186013 on 2015/12/31.
+ */
 public class TimedTaskDaemon {
 	private static Logger logger = LoggerFactory.getLogger(TimedTaskDaemon.class.getName());
 	SqlSessionFactory mdaFactory;
@@ -51,41 +53,35 @@ public class TimedTaskDaemon {
 		}
 	}
 	
-	
-	// 获取任务
+	 
+	/**
+	 * 加载预约任务
+	 */
 	public MdaJob loadTask() {
 		SqlSession session = null;
 		try {
 			session = mdaFactory.openSession();
 			JobOperator operator = session.getMapper(JobOperator.class);
-			int jobId = operator.getTaskJobId();
+			Integer jobId = operator.getTaskJobId();
 			MdaJob job = operator.getJobByID(jobId);
-			if(job!=null){
-				throw new MdaAppException("错误的任务编号");
-			}
-			String state = job.getCurrentstatus();
-			if (state.compareToIgnoreCase("R") == 0) {
-				throw new MdaAppException("分析任务正在运行");
-			} else if (state.compareToIgnoreCase("E") == 0 || state.compareToIgnoreCase("F") == 0) {
-				throw new MdaAppException("前一次任务已经结束或发生错误，请重置任务状态");
+			if(job==null){
+				throw new MdaAppException("任务["+jobId+"]不存在！");
 			}
 			Date now = new Date(System.currentTimeMillis());
 			SimpleDateFormat format = new SimpleDateFormat("YYYYMMddHHmmss");
 			String outFileName = "";
-			if (outFileName == null || outFileName.trim().isEmpty()) {
-				outFileName = "results/" + job.getJobname() + "-" + jobId + "-" + format.format(now) + ".xlsx";
-			}
-			job.setCurrentstatus("R");
+			if(outFileName==null || outFileName.trim().isEmpty()){
+	            outFileName=outFilePath + File.separator + job.getJobname()+"-"+jobId+"-" + format.format(now)+".xlsx";
+	        }
 			format.applyPattern("YYYY年MM月dd日HH:mm:ss");
 			String msg = "任务在" + format.format(now) + "启动,输出文件名为" + outFileName;
 			job.setStatusdescription(msg);
 			job.setOutputfilename(outFileName);
+			job.setCurrentstatus("R");
 			operator.updateJob(job);
 			session.commit();
 			return job;
 		} catch (Exception e) {
-			logger.error(" load task error !  " + e.getMessage());
-			//e.printStackTrace();
 			if (session != null) {
 				session.rollback();
 			}
@@ -99,7 +95,13 @@ public class TimedTaskDaemon {
 		return null;
 	}
 
-	public void runTask(MdaJob job) throws MdaAppException {
+	/**
+	 * 执行预约任务
+	 * @param job 任务对象 
+	 * @throws MdaAppException 应用异常
+	 */
+	public void runTask(MdaJob job) throws MdaAppException{
+		int jobId = job.getJobid();
 		String userSql = job.getUsersql();
 		String createdSQl = job.getSqlstatement();
 		String sql;
@@ -109,27 +111,27 @@ public class TimedTaskDaemon {
 			sql = createdSQl;
 		}
 		if (sql.isEmpty()) {
-			throw new MdaAppException("SQL脚本为空");
+			throw new MdaAppException("任务["+jobId+"]SQL脚本为空");
 		}
-		String rfn = sc.getRealPath(outFilePath + File.separator + job.getOutputfilename());
+		String outFileName = job.getOutputfilename();
+		String rfn=sc.getRealPath(outFileName);
+		File file = new File(rfn);
+		String path = file.getParent();
+		if(!new File(path).exists()){
+			new File(path).mkdirs();
+		}
 		HashMap<Integer, SQLTask> taskList = (HashMap<Integer, SQLTask>) sc.getAttribute("TASKLIST");
-		SQLTask task = new SQLTask(job.getJobid(), mdaFactory, mainDWFactory, sql, rfn,taskList);
+		SQLTask task = new SQLTask(jobId, mdaFactory, mainDWFactory, sql, rfn, taskList);
 		task.run();
-		logger.info("the job id: {} jobName:{} start at {} output file name {}",job.getJobid(), job.getJobname(), new Date(System.currentTimeMillis()), job.getOutputfilename());
+		logger.info("the job id: {} jobName:{} start at {} output file name {}",jobId, job.getJobname(), new Date(System.currentTimeMillis()), outFileName);
 	}
 
 	public void mainFunExcute() {
 		for (int i = 0; i < this.threadPoolSize; ++i) {
 			TimedTaskThread localTimedTaskThread = new TimedTaskThread(this,this.sleepInterval);
-			localTimedTaskThread.setName(String.valueOf(i + 1));
+			localTimedTaskThread.setName("ThreadTask"+String.valueOf(i + 1));
 			localTimedTaskThread.start();
 		}
-	}
-
-
-	public static void main(String[] args) {
-		TimedTaskDaemon damon = new TimedTaskDaemon(null,null,null);
-		damon.mainFunExcute();
 	}
 
 }
