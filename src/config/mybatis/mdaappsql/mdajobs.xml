@@ -23,7 +23,7 @@
     </select>
     
     <select id="getTaskJobId"  resultType="Integer">
-        select top 1 jobid from mdajob where currentstatus = 'W' and jobtime <![CDATA[<= ]]>cast(current_date as timestamp(2)) + ((current_time - time '00:00:00') hour to second)
+        select top 1 jobid from  mdajob  where currentstatus = 'W'  and jobtime is not null and jobtime <![CDATA[<= ]]>current_timestamp
     </select>
     
     <update id="updateJob" parameterType="MdaJob">
