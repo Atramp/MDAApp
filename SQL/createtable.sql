@@ -241,7 +241,7 @@ create table fieldfilter(
 
 insert into  fieldfilter (filterId,colId,opsql,place,optitle,showconnector,paramcount) values (0,0,'','','无操作',0,0);
 insert into  fieldfilter (filterId,colId,opsql,place,optitle,showconnector,paramcount) values (1,0,'','where','条件筛选',1,2);
-insert into  fieldfilter (filterId,colId,opsql,place,optitle,showconnector,paramcount) values (2,0,'','result','运算结果过滤',2);
+insert into  fieldfilter (filterId,colId,opsql,place,optitle,showconnector,paramcount) values (2,0,'','result','运算结果过滤',1,2);
 --insert into  fieldfilter (filterId,colId,opsql,place,optitle,paramcount) values (3,0,'','result','计算结果过滤',2);
 insert into  fieldfilter (filterId,colId,opsql,place,optitle,showconnector,paramcount,resultoperatorid) values (3,0,'','groupby','数据分组',0,0,0);
 insert into  fieldfilter (filterId,colId,opsql,place,optitle,showconnector,paramcount,resultoperatorid) values (4,0,'','groupby','数据分档',0,0,1);
@@ -249,9 +249,9 @@ insert into  fieldfilter (filterId,colId,opsql,place,optitle,showconnector,param
 
 
 
-insert into  fieldfilter (filterId,colId,opsql,place,optitle) values (0,0,'','','无操作');
-insert into  fieldfilter (filterId,colId,opsql,place,optitle,paramcount) values (1,0,'','where','常规判断操作',1);
-insert into  fieldfilter (filterId,colId,opsql,place,optitle,paramcount) values (2,0,'','result','常规判断操作',1);
+--insert into  fieldfilter (filterId,colId,opsql,place,optitle) values (0,0,'','','无操作');
+--insert into  fieldfilter (filterId,colId,opsql,place,optitle,paramcount) values (1,0,'','where','常规判断操作',1);
+--insert into  fieldfilter (filterId,colId,opsql,place,optitle,paramcount) values (2,0,'','result','常规判断操作',1);
 --update fieldfilter set optitle='数值判断操作' where filterId=1;
 
 
@@ -426,5 +426,12 @@ create table grouplayer(
         ,boundary2 varchar(20)
         ,primary key(layerId)
 );
+
+
+create table jobtask(
+    jobid INTEGER not null
+    job_time timestamp not null
+);
+
 
 
