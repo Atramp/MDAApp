@@ -12,9 +12,9 @@
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="com.teradata.jdbc.TeraDriver"/>
-                <property name="url" value="jdbc:teradata://192.168.100.200/CLIENT_CHARSET=cp936,TMODE=TERA,CHARSET=ASCII,DATABASE=DWPMART"/>
-                <property name="username" value="dbc"/>
-                <property name="password" value="dbc"/>
+                <property name="url" value="jdbc:teradata://192.168.31.162/CLIENT_CHARSET=cp936,TMODE=TERA,CHARSET=ASCII,DATABASE=PAPP"/>
+                <property name="username" value="tduser"/>
+                <property name="password" value="tduser"/>
             </dataSource>
         </environment>
     </environments>
