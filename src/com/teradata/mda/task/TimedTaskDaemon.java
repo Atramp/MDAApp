@@ -126,6 +126,9 @@ public class TimedTaskDaemon {
 		logger.info("the job id: {} jobName:{} start at {} output file name {}",jobId, job.getJobname(), new Date(System.currentTimeMillis()), outFileName);
 	}
 
+	/**
+	 * 创建执行预约任务的进程，调度程序
+	 */
 	public void mainFunExcute() {
 		for (int i = 0; i < this.threadPoolSize; ++i) {
 			TimedTaskThread localTimedTaskThread = new TimedTaskThread(this,this.sleepInterval);
