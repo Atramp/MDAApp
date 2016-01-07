@@ -21,9 +21,14 @@
         select * from fieldfilter where filterId=#{filterId}
     </select>
 
-    <select id="getFieldFilter" resultType="FieldFilter">
+    <!--<select id="getFieldFilter" resultType="FieldFilter">
         select t1.*,(select operationtitle from commonoperation t2 where t2.operationplace='connector' and t2.operationid=t1.opconnectorid)  as opconnectiontitle
         From fieldfilter t1 where (colId= #{colId} or filterId &lt; 100) and place= #{place} or filterId=0 order by filterId desc
+    </select>-->
+    <select id="getFieldFilter" resultType="FieldFilter">
+        select t1.*,t2.operationtitle as opconnectiontitle from fieldfilter t1
+        left join commonoperation t2 on t2.operationid=t1.opconnectorid and t2.operationplace='connector'
+        where (t1.colId= #{colId} or t1.filterId &lt; 100 ) and t1.place= #{place} or t1.filterId=0  order by filterId desc
     </select>
 
     <update id="updateFilter">
