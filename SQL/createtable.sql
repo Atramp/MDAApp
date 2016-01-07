@@ -428,10 +428,7 @@ create table grouplayer(
 );
 
 
-create table jobtask(
-    jobid INTEGER not null
-    job_time timestamp not null
-);
+alter table mdajob add jobtime timestamp;
 
 
 
