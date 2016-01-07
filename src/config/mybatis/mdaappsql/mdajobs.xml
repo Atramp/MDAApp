@@ -34,7 +34,7 @@
         usersql=#{jobInfo.usersql},
         statusdescription=#{jobInfo.statusdescription},
         outputfilename=#{jobInfo.outputfilename},
-        jobtime=#{jobtime}
+        jobtime=#{jobInfo.jobtime}
         where jobid=#{jobInfo.jobid};
     </update>
 
