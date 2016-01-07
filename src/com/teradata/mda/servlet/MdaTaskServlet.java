@@ -255,6 +255,7 @@ public class MdaTaskServlet extends BaseServlet {
         job.setCurrentstatus("W");
         job.setOutputfilename("");
         job.setStatusdescription("");
+        job.setJobtime("");
         jobOperator.updateJob(job);
         session.commit();
         String ret = JSONResponse.success();

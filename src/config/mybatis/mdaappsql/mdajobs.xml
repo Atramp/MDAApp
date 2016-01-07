@@ -33,7 +33,8 @@
         resultlink=#{jobInfo.resultlink},
         usersql=#{jobInfo.usersql},
         statusdescription=#{jobInfo.statusdescription},
-        outputfilename=#{jobInfo.outputfilename}
+        outputfilename=#{jobInfo.outputfilename},
+        jobtime=#{jobtime}
         where jobid=#{jobInfo.jobid};
     </update>
 
