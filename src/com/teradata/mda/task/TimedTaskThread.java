@@ -30,7 +30,7 @@ public class TimedTaskThread extends Thread {
 					continue;
 				}
 			} catch (Exception ex) {
-				logger.error("TimedTaskThread run ", ex.getMessage());
+				logger.error(Thread.currentThread().getName()+ " run ", ex.getMessage());
 			}
 			try {
 				logger.debug(Thread.currentThread().getName() + " no task , sleep " + this.sleepInterval/1000+ "S");
