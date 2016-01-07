@@ -26,6 +26,7 @@ public class TimedTaskThread extends Thread {
 					daemon.runTask(job);
 					continue;
 				}
+				logger.info(Thread.currentThread().getName() + " no task !");
 				logger.debug(Thread.currentThread().getName() + " sleep " + this.sleepInterval/1000+ "S");
 				Thread.sleep(this.sleepInterval);
 			} catch (Exception ex) {
