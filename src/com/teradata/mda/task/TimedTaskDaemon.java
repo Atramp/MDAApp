@@ -59,28 +59,29 @@ public class TimedTaskDaemon {
 	 */
 	public MdaJob loadTask() {
 		SqlSession session = null;
+		MdaJob job =null;
 		try {
 			session = mdaFactory.openSession();
 			JobOperator operator = session.getMapper(JobOperator.class);
-			Integer jobId = operator.getTaskJobId();
-			MdaJob job = operator.getJobByID(jobId);
-			if(job==null){
-				throw new MdaAppException("任务["+jobId+"]不存在！");
+			synchronized(lock){
+				Integer jobId = operator.getTaskJobId();
+				job = operator.getJobByID(jobId);
+				if(job!=null){
+					Date now = new Date(System.currentTimeMillis());
+					SimpleDateFormat format = new SimpleDateFormat("YYYYMMddHHmmss");
+					String outFileName = "";
+					if(outFileName==null || outFileName.trim().isEmpty()){
+						outFileName=outFilePath + File.separator + job.getJobname()+"-"+jobId+"-" + format.format(now)+".xlsx";
+					}
+					format.applyPattern("YYYY年MM月dd日HH:mm:ss");
+					String msg = "任务在" + format.format(now) + "启动,输出文件名为" + outFileName;
+					job.setStatusdescription(msg);
+					job.setOutputfilename(outFileName);
+					job.setCurrentstatus("R");
+					operator.updateJob(job);
+					session.commit();
+				}
 			}
-			Date now = new Date(System.currentTimeMillis());
-			SimpleDateFormat format = new SimpleDateFormat("YYYYMMddHHmmss");
-			String outFileName = "";
-			if(outFileName==null || outFileName.trim().isEmpty()){
-	            outFileName=outFilePath + File.separator + job.getJobname()+"-"+jobId+"-" + format.format(now)+".xlsx";
-	        }
-			format.applyPattern("YYYY年MM月dd日HH:mm:ss");
-			String msg = "任务在" + format.format(now) + "启动,输出文件名为" + outFileName;
-			job.setStatusdescription(msg);
-			job.setOutputfilename(outFileName);
-			job.setCurrentstatus("R");
-			operator.updateJob(job);
-			session.commit();
-			return job;
 		} catch (Exception e) {
 			if (session != null) {
 				session.rollback();
@@ -89,10 +90,10 @@ public class TimedTaskDaemon {
 			try {
 				session.close();
 			} catch (Exception ignore) {
-
+				
 			}
 		}
-		return null;
+		return job;
 	}
 
 	/**

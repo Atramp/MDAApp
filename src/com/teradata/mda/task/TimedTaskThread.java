@@ -21,22 +21,15 @@ public class TimedTaskThread extends Thread {
 	public void run() {
 		while (true) {
 			try {
-				MdaJob job;
-				synchronized(daemon.lock){
-					job = daemon.loadTask();
-				}
+				MdaJob job = daemon.loadTask();
 				if (job!=null){
 					daemon.runTask(job);
 					continue;
 				}
-			} catch (Exception ex) {
-				logger.error(Thread.currentThread().getName()+ " run ", ex.getMessage());
-			}
-			try {
-				logger.debug(Thread.currentThread().getName() + " no task , sleep " + this.sleepInterval/1000+ "S");
+				logger.debug(Thread.currentThread().getName() + " sleep " + this.sleepInterval/1000+ "S");
 				Thread.sleep(this.sleepInterval);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			} catch (Exception ex) {
+				logger.error(Thread.currentThread().getName()+ " run Exception ,", ex.getMessage());
 			}
 		}
 	}
