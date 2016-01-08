@@ -1,23 +1,26 @@
 package com.teradata.mda.servlet;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.HashMap;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.util.HashMap;
 
-import com.teradata.mda.config.MdaConfig;
-import com.teradata.mda.sql.SQLTask;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.teradata.mda.config.MdaConfig;
+import com.teradata.mda.sql.SQLTask;
+import com.teradata.mda.task.TimedTaskDaemon;
 
 /**
  * Created by YS186019 on 2015/8/25.
@@ -39,7 +42,7 @@ public class MdaApp extends HttpServlet {
 
 
         ServletContext context=this.getServletContext();
-        String configPath=context.getRealPath("/")+ "web/WEB-INF/conf/";
+        String configPath=context.getRealPath("/")+ "/WEB-INF/conf/";
         String configFileName=configPath+ "mdaapp.conf";
         MdaConfig mdaConfig=new MdaConfig();
         try {
@@ -62,6 +65,8 @@ public class MdaApp extends HttpServlet {
             context.setAttribute("MAINDW",mainDWSqlSessionFactory);
             HashMap<Integer,SQLTask> runningList=new HashMap<Integer,SQLTask>();
             context.setAttribute("TASKLIST",runningList);
+            TimedTaskDaemon taskDaemon = new TimedTaskDaemon(sqlSessionFactory,mainDWSqlSessionFactory,context);
+            taskDaemon.mainFunExcute();
         }catch(Exception e){
             e.printStackTrace();
         }

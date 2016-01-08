@@ -21,7 +21,11 @@
     <select id="getMaxJobId"  resultType="int">
         select coalesce(max(jobid),0) from mdajob
     </select>
-
+    
+    <select id="getTaskJobId"  resultType="Integer">
+        select top 1 jobid from  mdajob  where currentstatus = 'W'  and jobtime is not null and jobtime <![CDATA[<= ]]>current_timestamp
+    </select>
+    
     <update id="updateJob" parameterType="MdaJob">
         update mdajob set
         jobname=#{jobInfo.jobname},

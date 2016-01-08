@@ -234,9 +234,15 @@ Ext.define("mdaapp.view.overview.OverView", {
                     //metadata.attr='toolTip="' + val + '"';
                     return ('<span><A href="#">显示错误信息</A></span>');
                     //return ('<span><A href="#" title="'+val+'">显示错误信息</A></span>');
+<<<<<<< HEAD
                 }
                 {
                     return ('<span>&nbsp;</span>');
+=======
+                } else{
+                    //return ('<span>&nbsp;</span>');
+                    return (val);
+>>>>>>> beac0ae972b5eae5a4a86a55eeea6e5cb19dba66
                 }
 
             }

@@ -60,7 +60,8 @@ public class SQLTask extends Thread{
 
         HSSFWorkbook workbook2003 = new HSSFWorkbook();
         // 创建工作表对象并命名
-        HSSFSheet sheet = workbook2003.createSheet();
+        int sheetCount=0;
+        HSSFSheet sheet = workbook2003.createSheet("Sheet" + sheetCount);
         SqlSession dwSession=null;
         Connection connection=null;
         String ret="";
@@ -71,8 +72,9 @@ public class SQLTask extends Thread{
             ResultSet rset=state.executeQuery(sql);
             ResultSetMetaData meta=rset.getMetaData();
             int count=0;
+			int rowCount=0;
             int colCount=meta.getColumnCount();
-            HSSFRow row = sheet.createRow(count);
+            HSSFRow row = sheet.createRow(rowCount);
             for(int i=1;i<=colCount;i++){
                 String label=meta.getColumnLabel(i);
                 if(label==null || label.isEmpty()){
@@ -82,10 +84,11 @@ public class SQLTask extends Thread{
                 cell.setCellValue(label);
 
             }
-
+			count++;
+			rowCount++;
             while(rset.next()){
 
-                row = sheet.createRow(count);
+                row = sheet.createRow(rowCount);
 
                 for(int i=1;i<=colCount;i++){
                     String val=rset.getString(i);
@@ -98,6 +101,7 @@ public class SQLTask extends Thread{
                     cell.setCellValue(val);
                 }
                 count++;
+				rowCount++;
                 if(count%1000==0){
                     //workbook2003.write(os);
                     msg="已生成" + count +"条数据";
@@ -110,6 +114,12 @@ public class SQLTask extends Thread{
                         return;
                     }
 
+                }
+                if((count/100000 ) > sheetCount){
+                    sheetCount=count/100000;
+                    //flushRows();
+					rowCount=0;
+                    sheet = workbook2003.createSheet("Sheet" + sheetCount);
                 }
                 BufferedOutputStream os=new BufferedOutputStream(new FileOutputStream(this.outputFileName));
                 workbook2003.write(os);
@@ -149,7 +159,8 @@ public class SQLTask extends Thread{
            /*keep 100 rowsin memory,exceeding rows will be flushed to disk*/
         SXSSFWorkbook wb = new SXSSFWorkbook(rowaccess);
         // 创建工作表对象并命名
-        Sheet sheet = wb.createSheet();
+        int sheetCount=0;
+        Sheet sheet = wb.createSheet("Sheet" + sheetCount);
         SqlSession dwSession=null;
         Connection connection=null;
         String ret="";
@@ -161,8 +172,9 @@ public class SQLTask extends Thread{
             ResultSet rset=state.executeQuery(sql);
             ResultSetMetaData meta=rset.getMetaData();
             int count=0;
+            int rowCount=0;
             int colCount=meta.getColumnCount();
-            Row row = sheet.createRow(count);
+            Row row = sheet.createRow(rowCount);
             for(int i=1;i<=colCount;i++){
                 String label=meta.getColumnLabel(i);
                 if(label==null || label.isEmpty()){
@@ -172,9 +184,10 @@ public class SQLTask extends Thread{
                 cell.setCellValue(label);
             }
             count++;
+            rowCount++;
             while(rset.next()){
 
-                row = sheet.createRow(count);
+                row = sheet.createRow(rowCount);
 
                 for(int i=1;i<=colCount;i++){
                     String val=rset.getString(i);
@@ -187,6 +200,7 @@ public class SQLTask extends Thread{
                     cell.setCellValue(val);
                 }
                 count++;
+                rowCount++;
                 if(count%rowaccess==0){
                     ((SXSSFSheet)sheet).flushRows();
                     msg="已生成" + count +"条数据";
@@ -199,6 +213,13 @@ public class SQLTask extends Thread{
                         updateJobStatus("E", time,msg);
                         return;
                     }
+                }
+
+                if((count/100000 ) > sheetCount){
+                    sheetCount=count/100000;
+                    ((SXSSFSheet)sheet).flushRows();
+                    sheet = wb.createSheet("Sheet" + sheetCount);
+                    rowCount=0;
                 }
             }
             BufferedOutputStream os=new BufferedOutputStream(new FileOutputStream(this.outputFileName));

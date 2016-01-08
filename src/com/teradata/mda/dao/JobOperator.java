@@ -8,6 +8,11 @@ import java.util.List;
 
 /**
  * Created by YS186019 on 2015/10/12.
+ * 
+ * Modified by HY186013 on 2015/12/31
+ * add method 
+ * 		getTaskJobId 获取预约任务
+ * 	    updateTask  更新预约任务状态  
  */
 
 public interface JobOperator {
@@ -17,6 +22,7 @@ public interface JobOperator {
     public List<MdaJob> getJobByName(String name);
     
     public int getMaxJobId();
+    public Integer getTaskJobId();
     //public int insertJob(MdaJob jobInfo);
     public void insertJob(@Param("jobInfo")MdaJob jobInfo);
     public void updateJob(@Param("jobInfo")MdaJob jobInfo);
