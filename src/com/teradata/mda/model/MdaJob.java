@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 public class MdaJob {
 
 
-    public int  jobid;
+    public int jobid;
     public String jobname;
     public String description;
     public String creatorname;
