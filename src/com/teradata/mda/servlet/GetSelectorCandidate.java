@@ -3,7 +3,7 @@ package com.teradata.mda.servlet;
 //import com.alibaba.fastjson.JSON;
 
 import com.google.gson.Gson;
-import com.teradata.mda.config.MdaConfig;
+//import com.teradata.mda.config.MdaConfig;
 import com.teradata.mda.dao.SelectorCandidate;
 import com.teradata.mda.model.FilterCandidate;
 import com.teradata.mda.util.JSONResponse;

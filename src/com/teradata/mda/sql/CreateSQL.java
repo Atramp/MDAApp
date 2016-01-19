@@ -5,6 +5,7 @@ import com.teradata.mda.dao.ColInfoOperator;
 import com.teradata.mda.dao.GroupLayerOperator;
 import com.teradata.mda.dao.RuleOperator;
 import com.teradata.mda.model.*;
+import com.teradata.mda.util.MdaAppException;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -69,7 +70,7 @@ public class CreateSQL {
         whereMap = new HashMap<Integer, String>();
     }
 
-    public String createSql(int jobId) {
+    public String createSql(int jobId) throws MdaAppException{
         //SqlSession session = null;
         useHaving = false;
         isDistinct = false;
@@ -104,6 +105,9 @@ public class CreateSQL {
             rit = rulelist.iterator();
             while (rit.hasNext()) {
                 RuleFilter filter = rit.next();
+                // check the rule to test if it is illegal, for example, it is forbidden for detail output
+                checkRules(filter);
+                // if no exception while check the rule, continue to execute
                 if (filter.getPlace().compareToIgnoreCase("where") == 0) {
                     String where = createWhereElement(filter);
                     whereMap.put(filter.getRuleId(), where);
@@ -158,6 +162,7 @@ public class CreateSQL {
             if (session != null) {
                 session.rollback();
             }
+            throw new MdaAppException(e.getMessage());
         } /*finally {
             if (session != null) {
                 session.close();
@@ -277,7 +282,7 @@ public class CreateSQL {
 //            output = output + " AS " + title;
 //        }
         if (title != null && !title.isEmpty()) {
-            output = output + " (title '" + title +"')";
+            output = output + " AS \"" + title +"\" ";
         }
         return (output); // the return value is useless;
     }
@@ -806,7 +811,7 @@ public class CreateSQL {
         return(op.getSqltemplate());
     }
 
-    public static void main(String[] args) {
+/*    public static void main(String[] args) {
         try {
 
             Reader reader = Resources.getResourceAsReader("configuration.xml");
@@ -818,5 +823,65 @@ public class CreateSQL {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }*/
+
+    public void checkRules(RuleFilter rule) throws MdaAppException {
+        ColumnInfo info = fieldCache.get(new Integer(rule.getColId()));
+        String colDisplayName=info.getColname() + "(" + info.getColtitle() + ")";
+        String place=rule.getPlace();
+        // check if the filed can output detail
+        int enableDetail=info.getEnableDetail();
+        if(enableDetail==0){
+            // if the field enableDetail=0 then it will not be used as a groupby field
+            //if(place.compareToIgnoreCase("groupby")==0){
+            //    throw new MdaAppException("字段" + colDisplayName +"禁止输出明细，不能进行分组和分档操作");
+            //}
+            // if the field enableDetail=0 then it will not be used in result output segment without any operator
+            if(place.compareToIgnoreCase("result")==0){
+                if(rule.getResultoperatorid()==0){
+                    throw new MdaAppException("字段" + colDisplayName +"禁止输出明细,请选择统计操作");
+                }
+            }
+            // now we test if the operator is equal to special restrict in preventOperator section, if true,
+            // we also stop to create a SQL statement
+            String prevent=info.getPreventOperator();
+            if(prevent!=null && !prevent.isEmpty()){
+                String [] operator = prevent.split(",");
+                for(int i=0;i<operator.length;i++){
+                    try{
+                        int code=Integer.parseInt(operator[i]);
+                        if(code==rule.getResultoperatorid()){
+                            throw new MdaAppException("字段" + colDisplayName +"禁止使用选定操作,请重新选择");
+                        }
+                    }catch(Exception ignore){
+                    }
+                }
+            }
+        }
+        // check if the field can in result
+        if(place.compareToIgnoreCase("result")==0){
+            if(info.getEnableResult()==0){
+                throw new MdaAppException("字段" + colDisplayName +"禁止在输出列表中使用，请删除");
+            }
+        }
+        // check if the field can in where
+        if(place.compareToIgnoreCase("where")==0){
+            if(info.getEnableWhere()==0){
+                throw new MdaAppException("字段" + colDisplayName +"禁止在条件维度列表中使用，请删除");
+            }
+        }
+        // check if the field can in group by
+        if(place.compareToIgnoreCase("groupby")==0){
+            if(info.getEnableGroupBy()==0){
+                throw new MdaAppException("字段" + colDisplayName +"禁止在分组和分档列表中使用，请删除");
+            }
+        }
+        // check if the field can in group by
+        if(place.compareToIgnoreCase("orderby")==0){
+            if(info.getEnableOrderBy()==0){
+                throw new MdaAppException("字段" + colDisplayName +"禁止在排序列表中使用，请删除");
+            }
+        }
+
     }
 }

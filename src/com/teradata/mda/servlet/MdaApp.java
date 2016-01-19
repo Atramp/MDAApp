@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.teradata.mda.task.CleanerThread;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -42,16 +43,23 @@ public class MdaApp extends HttpServlet {
 
 
         ServletContext context=this.getServletContext();
-        String configPath=context.getRealPath("/")+ "/WEB-INF/conf/";
+        //String configPath=context.getRealPath("/")+ "/WEB-INF/classes/com/teradata/mda/config/";
+        String configPath=context.getRealPath("/")+ "/WEB-INF/classes/config/mybatis/";
         String configFileName=configPath+ "mdaapp.conf";
-        MdaConfig mdaConfig=new MdaConfig();
+        //MdaConfig mdaConfig=new MdaConfig();
+        MdaConfig mdaConfig=MdaConfig.getInstance();
         try {
             mdaConfig.load(new FileReader(configFileName));
         }catch(Exception e){
             logger.error("Can not read the configuration file {}",configFileName );
         }
         context.setAttribute("configuration", mdaConfig);
-
+        // start the cleaner thread
+        int startCleaner=mdaConfig.getInt("start_cleaner",1);
+        if(startCleaner==1) {
+            CleanerThread cleaner = new CleanerThread(getServletContext());
+            cleaner.start();
+        }
         try{
             Reader reader    = Resources.getResourceAsReader("config/mybatis/configuration.xml");
             //Reader reader    = Resources.getResourceAsReader("WEB-INF/conf/configuration.xml");

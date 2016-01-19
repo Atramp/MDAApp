@@ -2,6 +2,7 @@ package com.teradata.mda.servlet;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.teradata.mda.config.MdaConfig;
 import com.teradata.mda.dao.GroupLayerOperator;
 import com.teradata.mda.dao.JobOperator;
 import com.teradata.mda.dao.RuleOperator;
@@ -297,9 +298,21 @@ public class MdaTaskServlet extends BaseServlet {
         }
         Date now=new Date(System.currentTimeMillis());
         SimpleDateFormat format=new SimpleDateFormat("YYYYMMddHHmmss");
+        MdaConfig config=MdaConfig.getInstance();
+        String dir=config.getString("output_dir","results");
         if(outFileName==null || outFileName.trim().isEmpty()){
-            outFileName="results/"+job.getJobname()+"-"+jobId+"-" + format.format(now)+".xlsx";
+            outFileName=dir +"/"+job.getJobname()+"-"+jobId+"-" + format.format(now);
         }
+
+        int use2007=config.getInt("generate_excel_2007",1);
+        if(use2007==1){
+            outFileName=outFileName+".xlsx";
+        }else{
+            outFileName=outFileName+".xls";
+        }
+
+
+
         String state=job.getCurrentstatus();
         if(state.compareToIgnoreCase("R")==0) {
             throw new MdaAppException("分析任务正在运行");

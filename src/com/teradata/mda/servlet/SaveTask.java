@@ -227,7 +227,7 @@ public class SaveTask extends BaseServlet {
         return (maxId);
     }
 
-    private String createSQL(int jobId, SqlSession session) {
+    private String createSQL(int jobId, SqlSession session) throws MdaAppException{
         CreateSQL creator = new CreateSQL(session);
         String sql = creator.createSql(jobId);
         return (sql);

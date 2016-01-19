@@ -8,10 +8,15 @@ import java.util.List;
 
 /**
  * Created by YS186019 on 2015/10/12.
+ * this class is designed as a interface between the MyBatis and the Java application.
+ * the Mybatis is isolated from the application by interface
+ * this interface contains all needed operation to  operate table FIELDFILTER, that table is
+ * a core table to store the filter ( or called dimension (or 维度 in chinese))
+ * the SQL query is defined in config/mybatis/mdaappsql/fieldfilter.xml
+ *
  */
 public interface FieldFilterOperator {
     public List<FieldFilter> getPredefinedFilter(@Param("place")String place,@Param("tableIdList")int [] tableIdList);
-    //public List<FieldFilter> getPredefinedFilter(@Param("place")String place,@Param("tableIdList")String tableIdList);
 
     public List<FieldFilter> getFieldFilter(@Param("place")String place,@Param("colId")int colId);
 

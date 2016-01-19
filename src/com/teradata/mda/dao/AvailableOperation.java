@@ -7,6 +7,12 @@ import java.util.List;
 
 /**
  * Created by YS186019 on 2015/10/12.
+ * this class is designed as a interface between the MyBatis and the Java application.
+ * the Mybatis is isolated from the application by interface
+ * this interface contains all needed operation of table COMMONOPERATION, which is a
+ * collection of SQL operator such as = ,min,max and etc. </>
+ * the SQL query is defined in config.mybatis.mdaappsql.operations.xml
+ *
  */
 public interface AvailableOperation {
 
@@ -15,12 +21,4 @@ public interface AvailableOperation {
     //public List<CommonOperation> getCandidate(@Param("candidates")String candidates);
     public List<CommonOperation> getCandidate(@Param("candidates")int [] candidates);
     public List<CommonOperation> getAllOperation();
-/*    public void updateFilter(@Param("op1Id")int op1Id,
-                             @Param("op2Id")int op2Id,
-                             @Param("opConnectorId")int opConnectorId,
-                             @Param("param1value")String param1value,
-                             @Param("param2value")String param2value,
-                             @Param("filterId")int filterId);
-
-    public void insertFilter(@Param("filter")FieldFilter filter);*/
 }

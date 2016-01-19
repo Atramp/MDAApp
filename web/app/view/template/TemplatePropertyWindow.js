@@ -157,8 +157,9 @@ Ext.define("mdaapp.view.template.TemplatePropertyWindow", {
                             emptyText: '请输入SQL模板',
                             name: 'opsql',
                             itemId: 'opsql',
+                            hidden:true,
                             bind: {
-                                value: '{opsql}'
+                                //value: '{opsql}'
                             }
                             //hidden: function () {return(!me.place=='result')}
                         },

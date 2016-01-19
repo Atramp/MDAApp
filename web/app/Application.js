@@ -18,7 +18,8 @@ Ext.define('mdaapp.Application', {
     ],
 
     routes: {
-        'helptable': 'onHelpTable',
+        //'helptable': 'onHelpTable',
+        'helptable': 'showMainPage',
         'home': 'showMainPage'
 
     },
@@ -148,7 +149,8 @@ Ext.define('mdaapp.Application', {
         if (mainWnd) {
             mainWnd.destroy();
         }
-        var ht = Ext.create("mdaapp.view.helptable.HelpTable");
+        //var ht = Ext.create("mdaapp.view.helptable.HelpTable");
+        mainWnd = Ext.create("mdaapp.view.Main");
     }
 
 });

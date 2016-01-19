@@ -7,6 +7,12 @@ import java.util.List;
 
 /**
  * Created by YS186019 on 2015/10/12.
+ * this class is designed as a interface between the MyBatis and the Java application.
+ * the Mybatis is isolated from the application by interface
+ * this interface contains all needed operation to get the column information from database,
+ * the information either from table or view.
+ * the SQL query is defined in config/mybatis/mdaappsql/columninfo.xml
+ *
  */
 public interface ColInfoOperator {
 

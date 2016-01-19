@@ -23,6 +23,13 @@ public class ColumnInfo {
     String virtualtype;
     String defaultCodeTable;
     String defaultInputType;
+    int enableDetail;
+    int enableResult;
+    int enableWhere;
+    int enableGroupBy;
+    int enableOrderBy;
+    String preventOperator;
+
 
 
     public int getColId() {
@@ -176,5 +183,53 @@ public class ColumnInfo {
 
     public void setDefaultInputType(String defaultInputType) {
         this.defaultInputType = defaultInputType;
+    }
+
+    public int getEnableDetail() {
+        return enableDetail;
+    }
+
+    public void setEnableDetail(int enableDetail) {
+        this.enableDetail = enableDetail;
+    }
+
+    public int getEnableResult() {
+        return enableResult;
+    }
+
+    public void setEnableResult(int enableResult) {
+        this.enableResult = enableResult;
+    }
+
+    public int getEnableWhere() {
+        return enableWhere;
+    }
+
+    public void setEnableWhere(int enableWhere) {
+        this.enableWhere = enableWhere;
+    }
+
+    public int getEnableGroupBy() {
+        return enableGroupBy;
+    }
+
+    public void setEnableGroupBy(int enableGroupBy) {
+        this.enableGroupBy = enableGroupBy;
+    }
+
+    public int getEnableOrderBy() {
+        return enableOrderBy;
+    }
+
+    public void setEnableOrderBy(int enableOrderBy) {
+        this.enableOrderBy = enableOrderBy;
+    }
+
+    public String getPreventOperator() {
+        return preventOperator;
+    }
+
+    public void setPreventOperator(String preventOperator) {
+        this.preventOperator = preventOperator;
     }
 }

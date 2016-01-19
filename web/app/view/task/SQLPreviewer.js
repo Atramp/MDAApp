@@ -21,12 +21,12 @@ Ext.define("mdaapp.view.task.SQLPreviewer", {
             // ExtraTools will be defined in the child class, the same as toolbar format
             // the onboxReady will add these children to tool bar
             '->',
-            {
-                xtype: 'button',
-                text: '保存用户定义SQL',
-                toolTip: '将用户定义SQL保存至任务，此SQL优先级高于系统生成SQL',
-                handler: 'onSaveUserDefinedSQL'
-            },
+            //{
+            //    xtype: 'button',
+            //    text: '保存用户定义SQL',
+            //    toolTip: '将用户定义SQL保存至任务，此SQL优先级高于系统生成SQL',
+            //    handler: 'onSaveUserDefinedSQL'
+            //},
 
             {
                 xtype: 'button',
@@ -87,6 +87,7 @@ Ext.define("mdaapp.view.task.SQLPreviewer", {
                     flex: 1,
                     name: 'message',
                     labelAlign:'top',
+                    hidden:true,
                     fieldLabel: '用户自定义SQL'
                     //labelWidth: 0
                 }

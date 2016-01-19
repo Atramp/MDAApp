@@ -87,7 +87,7 @@ Ext.define("mdaapp.view.Main", {
              //glyph: 85,
              xtype:'CreateNewTask'
              },*/ {
-                title: '定义维度模板',
+                title: '管理维度模板',
                 //glyph: 42,
                 xtype:'template-overview',
                 itemId:'templateOverViewWnd'
