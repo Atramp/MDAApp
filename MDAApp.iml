@@ -9,6 +9,12 @@
         <webroots>
           <root url="file://$MODULE_DIR$/web" relative="/" />
         </webroots>
+        <sourceRoots>
+          <root url="file://$MODULE_DIR$/src" />
+          <root url="file://$MODULE_DIR$" />
+          <root url="file://$MODULE_DIR$/web/WEB-INF/conf/sql" />
+          <root url="file://$MODULE_DIR$/web/WEB-INF/conf" />
+        </sourceRoots>
       </configuration>
     </facet>
   </component>
