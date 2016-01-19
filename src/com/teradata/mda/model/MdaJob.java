@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 public class MdaJob {
 
 
-    public int  jobid;
+    public int jobid;
     public String jobname;
     public String description;
     public String creatorname;
@@ -22,6 +22,7 @@ public class MdaJob {
     int referencecount;
     String statusdescription;
     String outputfilename;
+    String jobtime;
 
     //public Timestamp previousfinishedObj;
     //public Timestamp createtimeObj;
@@ -147,5 +148,13 @@ public class MdaJob {
 
     public void setOutputfilename(String outputFileName) {
         this.outputfilename = outputFileName;
+    }
+
+    public String getJobtime() {
+        return jobtime;
+    }
+
+    public void setJobtime(String jobtime) {
+        this.jobtime = jobtime;
     }
 }

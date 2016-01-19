@@ -13,7 +13,9 @@ Ext.define('mdaapp.model.MdaJob', {
         {name: 'resultlink', type: 'string'},
         {name: 'usersql', type: 'string'},
         {name: 'statusdescription', type: 'string'},
-        {name:'outputfilename',type:'string'}
+        {name: 'outputfilename', type: 'string'},
+        {name: 'jobtime', type: 'string'}
+
 
     ]
 });

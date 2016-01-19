@@ -3,8 +3,7 @@ Ext.define("mdaapp.view.overview.OverView", {
 
     requires: [
         'mdaapp.view.overview.OverViewController',
-        'mdaapp.view.overview.OverViewModel',
-        'Ext.grid.column.Action'
+        'mdaapp.view.overview.OverViewModel'
     ],
 
     controller: "overview-overview",
@@ -93,16 +92,17 @@ Ext.define("mdaapp.view.overview.OverView", {
          },*/
         {
             xtype: 'button',
-            text: '预约运行',
-            listeners: {
-                click: 'scheduleTask'
-            }
-        },
-        {
-            xtype: 'button',
             text: '立即运行',
             listeners: {
                 click: 'runTask'
+            }
+        },
+        {
+            id: 'scheduleButton',
+            xtype: 'button',
+            text: '预约执行',
+            listeners: {
+                click: 'scheduleTask'
             }
         },
         {
@@ -162,7 +162,10 @@ Ext.define("mdaapp.view.overview.OverView", {
             width: 200,
             sortable: true,
             //formatter: 'usMoney',
-            dataIndex: 'createtime'
+            dataIndex: 'createtime',
+            renderer: function (val) {
+                return val ? val.slice(0, val.indexOf('.')) : '-';
+            }
         },
         {
             text: '状态',
@@ -170,7 +173,9 @@ Ext.define("mdaapp.view.overview.OverView", {
             sortable: true,
             renderer: function (val) {
                 //console.log("the current status is ", val);
-                if (val == "W") {
+                if (val == "A") {
+                    return ('<span><img src="resources/clock.png" height="20" width="20" title="预约时间:' + "" + '"/></span>');
+                } else if (val == "W") {
                     return ('<span><img src="resources/pause.png" height="20" width="20" /></span>');
                 } else if (val == "R") {
                     return ('<span><img src="resources/running.png" height="20" width="20" /></span>');
@@ -189,7 +194,10 @@ Ext.define("mdaapp.view.overview.OverView", {
             width: 200,
             sortable: true,
             //formatter: 'date("m/d/Y")',
-            dataIndex: 'previousfinished'
+            dataIndex: 'previousfinished',
+            renderer: function (val) {
+                return val ? val.slice(0, val.indexOf('.')) : '-';
+            }
         },
         {
             text: '下载结果',
@@ -205,7 +213,7 @@ Ext.define("mdaapp.view.overview.OverView", {
                     return ('<span><A href="' + data.outputfilename + '">下载</A></span>')
                 } else
                     return ('<span>&nbsp;</span>');
-                }
+            }
 
         },
         {
@@ -214,24 +222,30 @@ Ext.define("mdaapp.view.overview.OverView", {
             flex: 2,
             sortable: true,
             dataIndex: 'statusdescription',
-            renderer:function(val,metadata,record){
+            renderer: function (val, metadata, record) {
                 //console.log("the datattatatat", record);
                 var data = record.data;
                 //console.log("the data is ", data);
                 if (data.currentstatus == "S") {
                     return (val);
                 } else if (data.currentstatus == "E") {
-                    metadata.tdAttr='data-qtip="' + val + '"';
+                    metadata.tdAttr = 'data-qtip="' + val + '"';
                     //metadata.attr='toolTip="' + val + '"';
                     return ('<span><A href="#">显示错误信息</A></span>');
-                    //return ('<span><A href="#" title="'+val+'">显示错误信息</A></span>');
-                } else{
-                    //return ('<span>&nbsp;</span>');
-                    return (val);
                 }
 
             }
 
+        },
+        {
+            text: '预约执行时间',
+            width: 200,
+            sortable: true,
+            //formatter: 'date("m/d/Y")',
+            dataIndex: 'jobtime',
+            renderer: function (val) {
+                return val ? val.slice(0, val.indexOf('.')) : '-'
+            }
         }/*,
          {
          text: '操作',

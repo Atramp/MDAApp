@@ -66,6 +66,7 @@
         <mapper resource="config/mybatis/mdaappsql/jobrules.xml"/>
         <mapper resource="config/mybatis/mdaappsql/grouplayer.xml"/>
         <mapper resource="config/mybatis/mdaappsql/TableHelper.xml"/>
+        <mapper resource="config/mybatis/mdaappsql/scheduledTask.xml"/>
     </mappers>
 
 

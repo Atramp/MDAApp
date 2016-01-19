@@ -73,6 +73,8 @@ public class MdaApp extends HttpServlet {
             context.setAttribute("MAINDW",mainDWSqlSessionFactory);
             HashMap<Integer,SQLTask> runningList=new HashMap<Integer,SQLTask>();
             context.setAttribute("TASKLIST",runningList);
+
+            // 启动预约执行后台线程
             TimedTaskDaemon taskDaemon = new TimedTaskDaemon(sqlSessionFactory,mainDWSqlSessionFactory,context);
             taskDaemon.mainFunExcute();
         }catch(Exception e){

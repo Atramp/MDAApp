@@ -13,14 +13,10 @@ Ext.define("mdaapp.view.TitleWindow",{
     },*/
     //plugins: 'viewport',
     xtype:'title-window',
-    html: "欢迎使用",
+    html: "<span style='margin-left:20px ;'>欢迎使用</span>",
     closable: false,
     autoShow: true,
-    layout:{
-        type:'fit'
-    },
     border:true,
-
     height:200,
     width:400,
     layout:{

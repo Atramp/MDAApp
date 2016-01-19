@@ -5,7 +5,6 @@
 <mapper namespace="com.teradata.mda.dao.JobOperator">
 
 
-
     <select id="getAllJobs" resultType="MdaJob">
         select * from mdajob
     </select>
@@ -14,18 +13,19 @@
         select * from mdajob where jobid = #{id}
     </select>
 
-    <select id="getJobByName"  parameterType="string" resultType="MdaJob">
+    <select id="getJobByName" parameterType="string" resultType="MdaJob">
         select * from mdajob where jobname like ('%' || #{name} || '%')
     </select>
 
-    <select id="getMaxJobId"  resultType="int">
+    <select id="getMaxJobId" resultType="int">
         select coalesce(max(jobid),0) from mdajob
     </select>
-    
-    <select id="getTaskJobId"  resultType="Integer">
-        select top 1 jobid from  mdajob  where currentstatus = 'W'  and jobtime is not null and jobtime <![CDATA[<= ]]>current_timestamp
+
+    <select id="getTaskJobId" resultType="Integer">
+        select top 1 jobid from mdajob where currentstatus = 'A' and jobtime is not null and jobtime <![CDATA[<= ]]>
+        current_timestamp
     </select>
-    
+
     <update id="updateJob" parameterType="MdaJob">
         update mdajob set
         jobname=#{jobInfo.jobname},
@@ -37,7 +37,15 @@
         resultlink=#{jobInfo.resultlink},
         usersql=#{jobInfo.usersql},
         statusdescription=#{jobInfo.statusdescription},
-        outputfilename=#{jobInfo.outputfilename}
+        outputfilename=#{jobInfo.outputfilename},
+        <choose>
+            <when test="jobInfo.jobtime ==  null || jobInfo.jobtime == ''">
+                jobtime = null
+            </when>
+            <otherwise>
+                jobtime = #{jobInfo.jobtime}
+            </otherwise>
+        </choose>
         where jobid=#{jobInfo.jobid};
     </update>
 
