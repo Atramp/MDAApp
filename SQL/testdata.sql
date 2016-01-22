@@ -1,3 +1,4 @@
+--测试数据
 insert into mdajob (jobid,jobname,creator,createtime,currentstatus) VALUES (1,'job1','aaa1','2015-08-21 00:00:00','');
 insert into mdajob (jobid,jobname,creator,createtime,currentstatus) VALUES (2,'job2','中文2','2015-08-21 00:00:01','');
 insert into mdajob (jobid,jobname,creator,createtime,currentstatus) VALUES (3,'job3','a中文aa3','2015-08-21 00:00:02','');

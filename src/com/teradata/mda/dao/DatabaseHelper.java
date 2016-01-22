@@ -13,13 +13,40 @@ import org.apache.ibatis.annotations.Param;
  *
  */
 public interface DatabaseHelper {
-    //public List<HelpDatabase> helpDatabase(@Param("dbName") String dbName);
+
+    /**
+     * 运行 help table 后，系统将解析返回的结果集，并将表记录插入数据库
+     * @param dbName  数据库名称
+     * @param tableName  数据表名称
+     * @param tableType  数据表类型  view table
+     * @param Comments  数据表注释
+     * @param creatorName  数据表创建人
+     */
 
     public void insertTable(@Param("dbName")String dbName,@Param("tableName")String tableName,@Param("tableType")String tableType,
                             @Param("comments")String Comments,@Param("creatorName")String creatorName);
 
+    /**
+     * 根据数据库名称和数据表名称查询表 ID
+     * @param dbName
+     * @param tableName
+     * @return
+     */
     public int getTableId(@Param("dbName")String dbName,@Param("tableName")String tableName);
 
+
+    /**
+     * 运行 help table 后，系统将解析返回的结果集，并将字段记录插入数据库
+     * @param tableId  所属数据表ID
+     * @param colName  字段名称
+     * @param colType  字段类型
+     * @param colFormat  字段格式
+     * @param colMaxLength  字段最大长度
+     * @param colDecimal  字段如果为数字型，记录其长度，否者为空
+     * @param colFraction  字段如果为数字型，小数部分长度
+     * @param comments  字段描述
+     * @param colTitle  字段标题
+     */
     public void insertColumn(
             @Param("tableId")int tableId,
             @Param("colName")String colName,

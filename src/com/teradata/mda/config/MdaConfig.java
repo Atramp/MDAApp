@@ -13,6 +13,10 @@ public class MdaConfig extends Properties{
     private MdaConfig(){}
     private static MdaConfig handle;
 
+    /**
+     * 获取市里
+     * @return
+     */
     public static MdaConfig getInstance(){
         if(handle==null){
             handle=new MdaConfig();
@@ -20,7 +24,12 @@ public class MdaConfig extends Properties{
         return(handle);
     }
 
-
+    /**
+     * 按整数方式获取配置项数据
+     * @param keyName 配置项名称
+     * @param defaultVal 缺省值
+     * @return 配置值（如果存在且为合法整数）或缺省值
+     */
     public int getInt(String keyName,int defaultVal){
         int val;
         try{
@@ -32,6 +41,12 @@ public class MdaConfig extends Properties{
         return(val);
     }
 
+    /**
+     * 按字符串方式获取配置项数据
+     * @param keyName 配置项名称
+     * @param defaultVal 缺省值
+     * @return 配置值或缺省值
+     */
     public String getString(String keyName,String defaultVal){
         return(getProperty(keyName, defaultVal));
     }

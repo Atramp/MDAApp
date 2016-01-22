@@ -1,4 +1,4 @@
---多维分析测试语句
+--多维分析测试语句，此语句为业务人员实际使用的一个分析任务例子
 SELECT a.cmcc_prov_prvd_id
 	,b.branch_name
 	,CASE 

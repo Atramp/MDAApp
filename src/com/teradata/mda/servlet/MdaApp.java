@@ -44,12 +44,14 @@ public class MdaApp extends HttpServlet {
 
         ServletContext context=this.getServletContext();
         //String configPath=context.getRealPath("/")+ "/WEB-INF/classes/com/teradata/mda/config/";
-        String configPath=context.getRealPath("/")+ "/WEB-INF/classes/config/mybatis/";
+        String configPath=context.getRealPath("/")+ "/WEB-INF/classes/config/";
         String configFileName=configPath+ "mdaapp.conf";
         //MdaConfig mdaConfig=new MdaConfig();
+
         MdaConfig mdaConfig=MdaConfig.getInstance();
         try {
             mdaConfig.load(new FileReader(configFileName));
+            logger.info("configuration file load successfully");
         }catch(Exception e){
             logger.error("Can not read the configuration file {}",configFileName );
         }

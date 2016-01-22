@@ -1,3 +1,5 @@
+--此文件为随机抽取的源数据表数据，供测试用
+
 insert into dwpmart.RP_STAR_SERVICE_DIMENSION_MON values (﻿201508,'83132765985',12100,1,1,'09','鑫崇基',0,43.20,255.00,149.57,0.18,0);
 insert into dwpmart.RP_STAR_SERVICE_DIMENSION_MON values (201508,'53107827215',12100,54,0,'07',' ',0,51.75,304.00,0.03,0.00,2339);
 insert into dwpmart.RP_STAR_SERVICE_DIMENSION_MON values (201508,'73106249314',12100,68,0,'07','摩托罗拉',0,11.45,103.00,0.00,0.00,68);

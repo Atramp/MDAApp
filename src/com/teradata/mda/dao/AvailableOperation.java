@@ -16,9 +16,32 @@ import java.util.List;
  */
 public interface AvailableOperation {
 
+    /**
+     * 根据ID获取操作符信息
+     * @param id
+     * @return 包含操作符信息的bean
+     */
     public CommonOperation getOperationById(@Param("id")int id);
+
+    /**
+     * 根据数据库类型、字段类型、SQL子句位置获取可用操作符
+     * @param dbType  数据库类型
+     * @param colType  字段类型
+     * @param place  SQL子句位置，
+     * @return  List<CommonOperation> ，包含操作符信息的bean链表
+     */
     public List<CommonOperation> getOperations(@Param("dbType")String dbType,@Param("colType")String colType,@Param("place")String place);
-    //public List<CommonOperation> getCandidate(@Param("candidates")String candidates);
+
+    /**
+     * 根据指定的id值数组，返回 包含操作符信息的bean链表，目前程序中尚未使用
+     * @param candidates 整数数组，包含需要获取的操作符 ID
+     * @return 包含操作符信息的bean链表
+     */
     public List<CommonOperation> getCandidate(@Param("candidates")int [] candidates);
+
+    /**
+     * 获取全部的操作符信息
+     * @return List<CommonOperation> 包含操作符信息的bean链表
+     */
     public List<CommonOperation> getAllOperation();
 }
